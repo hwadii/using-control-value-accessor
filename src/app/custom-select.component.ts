@@ -1,13 +1,22 @@
-import { Component, forwardRef, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  forwardRef,
+  Input,
+} from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-custom-select',
   template: `
     <ul>
-      <li *ngFor="let option of options"
-          [class.selected]="option === value"
-          (click)="_value = option">
+      <li
+        *ngFor="let option of options"
+        [class.selected]="option === value"
+        (click)="_value = option"
+      >
         {{ option }}
       </li>
     </ul>
@@ -47,12 +56,16 @@ export class CustomSelectComponent implements ControlValueAccessor {
   public _onChange: any;
   public _onTouched: any;
 
+  constructor(private changeDetection: ChangeDetectorRef) {}
+
   public set _value(selected: any) {
     this.value = selected;
+    this._onChange(selected);
   }
 
   public writeValue(value: any): void {
     this.value = value;
+    this.changeDetection.markForCheck();
   }
 
   public registerOnChange(fn: any): void {

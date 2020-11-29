@@ -1,7 +1,13 @@
-import { Component, forwardRef, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  forwardRef,
+} from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-custom-control',
   template: `{{ value }} `,
   styles: [],
@@ -18,8 +24,11 @@ export class CustomControlComponent implements ControlValueAccessor {
   public _onChange: (_: any) => void;
   public _onTouched: (_: any) => void;
 
+  constructor(private changeDetection: ChangeDetectorRef) {}
+
   public writeValue(value: any) {
     this.value = value;
+    this.changeDetection.markForCheck();
   }
 
   public registerOnChange(fn: (_: any) => void) {
