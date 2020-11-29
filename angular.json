@@ -104,6 +104,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "control-value-accessor"
+    }
+  },
+  "defaultProject": "control-value-accessor",
+  "cli": {
+    "analytics": "5d3a61a9-acd9-43c9-8022-02c3348aa41b"
+  }
 }
